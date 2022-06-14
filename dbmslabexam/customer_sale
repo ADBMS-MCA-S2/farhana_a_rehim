@@ -1,0 +1,25 @@
+create database customer_sale;
+use customer_sale;
+create table customer(cust_id varchar(20) not null primary key,cust_name varchar(20) not null);
+create table item(item_id varchar(20) not null primary key,item_name varchar(20) not null,price int(10) not null);
+create table sales(bill_no varchar(20) not null primary key,bill_date varchar(20) not null,cust_id varchar(20),item_id varchar(20),qty_sold int(10)not null,foreign key(cust_id) references customer(cust_id) on delete cascade,foreign key(item_id) references item(item_id) on delete cascade);
+insert into customer values("c001","farhana");
+insert into customer values("c002","bincy");
+insert into customer values("c003","dwany");
+insert into customer values("c004","ajay");
+insert into customer values("c005","amal");
+insert into item values("t001","pencil",5);
+insert into item values("t002","pen",10);
+insert into item values("t003","scale",15);
+insert into sales values("b001","26-2-2022","c001","t001",10);
+insert into sales values("b002","12-05-2022","c002","t003",20);
+insert into sales values("b003","14-06-2022","c003","t001",5);
+insert into sales values("b004","14-06-2022","c002","t001",20);
+insert into sales values("b005","22-05-2022","c001","t002",12);
+insert into sales values("b006","22-05-2022","c005","t002",22);
+insert into sales values("b007","23-05-2022","c005","t003",11);
+select customer.cust_name,sales.item_id,sales.bill_date from customer inner join sales on sales.cust_id=customer.cust_id where bill_date="14-06-2022";  #q1
+select sales.bill_no,item.item_name,sales.qty_sold,item.price,item.price*sales.qty_sold as "total amount" from sales inner join item on item.item_id=sales.item_id;  #q2
+select customer.cust_id,customer.cust_name from customer inner join sales on customer.cust_id=sales.cust_id where item_id in(select item_id from item where price>5);  #q3
+select cust_id,count(item_id) from sales group by cust_id;  #q4
+select sales.cust_id,item.item_id,item.item_name from sales inner join item on item.item_id=sales.item_id where cust_id="c005"; #q5
