@@ -1,0 +1,32 @@
+create database university;
+use university;
+create table Student(rollno varchar(20) primary key,name varchar(20) not null,address varchar(20),totalmarks int(10) not null);
+create table Course(cid varchar(20) primary key,coursename varchar(20) not null,fees int(20) not null);
+create table Admission(rollno varchar(20) not null,cid varchar(20) not null,sem varchar(20) not null,primary key(rollno,cid),foreign key(rollno) references Student(rollno) on delete cascade,foreign key(cid) references Course(cid) on delete cascade);
+insert into Student values("101","Ajay","flat 3b,skyline",88);
+insert into Student values("102","hanna","house 31,providence",79);
+insert into Student values("103","Alan","no32,street5",68);
+insert into Student values("104","cathy","flat 16b,ecotat",84);
+insert into Student values("105","Rahul","houseno 53,16street",99);
+insert into Student values("106","Ron","houseno 23,10street",39);
+insert into Student values("107","lamiya","flat 8c accent",94);
+insert into Student values("108","Renu","houseno 22,tt rd",74);
+insert into Course values("c1","MCA",30000);
+insert into Course values("c2","BCA",20000);
+insert into Course values("c3","CS",40000);
+insert into Course values("c4","EC",40000);
+insert into Admission values("101","c1",2);
+insert into Admission values("102","c1",2);
+insert into Admission values("103","c2",1);
+insert into Admission values("104","c2",1);
+insert into Admission values("105","c3",2);
+insert into Admission values("106","c3",2);
+insert into Admission values("107","c4",1);
+insert into Admission values("108","c4",1);
+select * from Student;
+select * from Course;
+select * from Admission;
+create view admission_mca as select Student.rollno,Student.name,Student.address,Student.totalmarks from Student inner join Admission on Student.rollno=Admission.rollno where Admission.cid="c1";
+select * from admission_mca ;  #q3
+select fees from Course where cid like(select cid from Admission where rollno like(select rollno from Student where rollno="105"));  #q4
+select Course.coursename,count(Admission.rollno) as "No of Students" from Admission inner join Course on Admission.cid=Course.cid group by Course.cid;   #q5
