@@ -1,0 +1,8 @@
+db.student.insert({"_id":1,"Name":"Anjali","Place":"Kollam","Phone":8582639562,"Vaccination_status":"Both vaccinated","RTPCR":"negative","Lab_mark":{"Internal":30,"External":45},"Department":"MCA"})
+db.student.insert({"_id":2,"Name":"Anuradha","Place":"Varkala","Phone":99992639562,"Vaccination_status":"Both vaccinated","RTPCR":"negative","Lab_mark":{"Internal":40,"External":48},"Department":"Civil"})
+db.student.insert({"_id":3,"Name":"Bismiya","Place":"Kollam","Phone":9446639562,"Vaccination_status":"not vaccinated","RTPCR":"positive","Lab_mark":{"Internal":50,"External":39},"Department":"MCA"})
+db.student.insert({"_id":4,"Name":"Vimal","Place":"Ernakulam","Phone":8582639568,"Vaccination_status":"First dose only","RTPCR":"positive","Lab_mark":{"Internal":40,"External":42},"Department":"Civil"})
+db.student.insert({"_id":5,"Name":"Vivek","Place":"Kollam","Phone":8582639777,"Vaccination_status":"Both vaccinated","RTPCR":"negative","Lab_mark":{"Internal":50,"External":50},"Department":"MCA"})
+db.student.find({Vaccination_status:"Both vaccinated"},{Name:1,Phone:1,_id:0}).pretty();  #q3
+db.student.aggregate([{$match:{Department:"MCA"}},{$sort:{"Lab_mark.External":-1}},{$project:{Name:1,Phone:1,_id:0}},{$limit:2}])  #q4
+db.student.find({Name:{$regex:"^A"}},{Name:1,Department:1}).pretty()  #q5
